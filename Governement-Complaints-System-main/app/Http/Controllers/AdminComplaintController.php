@@ -96,6 +96,17 @@ public function listAllComplaintLogs()
     );
 }
 
+/**
+ * Return complaints statistics for admin dashboard
+ */
+public function statistics()
+{
+    // Delegate the computation to service layer
+    $stats = $this->complaintService->getStatistics();
+
+    // Return a clean JSON response
+    return $this->success('Fetched complaints statistics successfully.', $stats);
+}
 
 
 }

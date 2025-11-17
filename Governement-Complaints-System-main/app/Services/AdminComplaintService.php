@@ -166,6 +166,64 @@ public function listAllComplaintLogs()
     ])->orderByDesc('created_at')->get();
 }
 
+/**
+ * Fetch complaints statistics per government entity and overall system stats
+ *
+ * @return array
+ */
+public function getStatistics(): array
+{
+    // Fetch stats per government entity
+    $governmentStats = Complaint::selectRaw(
+        'government_entity_id,
+         COUNT(*) as total,
+         SUM(status = "new") as new_count,
+         SUM(status = "in_progress") as in_progress_count,
+         SUM(status = "completed") as completed_count,
+         SUM(status = "rejected") as rejected_count'
+    )
+    ->with('governmentEntity:id,name') // eager load government entity name
+    ->groupBy('government_entity_id')
+    ->get()
+    ->map(function ($item) {
+        $total = $item->total ?: 1; // avoid division by zero
+        return [
+            'government_entity' => $item->governmentEntity->name ?? 'Unknown',
+            'total_complaints' => $item->total,
+            'new' => $item->new_count,
+            'new_percentage' => round(($item->new_count / $item->total) * 100, 2),
+            'in_progress' => $item->in_progress_count,
+            'in_progress_percentage' => round(($item->in_progress_count / $item->total) * 100, 2),
+            'completed' => $item->completed_count,
+            'completed_percentage' => round(($item->completed_count / $item->total) * 100, 2),
+            'rejected' => $item->rejected_count,
+            'rejected_percentage' => round(($item->rejected_count / $item->total) * 100, 2),
+        ];
+    });
+
+    // Fetch overall system-wide stats
+    $totalComplaints = Complaint::count();
+    $statusCounts = Complaint::selectRaw(
+        'SUM(status = "new") as new_count,
+         SUM(status = "in_progress") as in_progress_count,
+         SUM(status = "completed") as completed_count,
+         SUM(status = "rejected") as rejected_count'
+    )->first();
+
+    $overallStats = [
+        'total_complaints' => $totalComplaints,
+        'new_percentage' => $totalComplaints ? round(($statusCounts->new_count / $totalComplaints) * 100, 2) : 0,
+        'in_progress_percentage' => $totalComplaints ? round(($statusCounts->in_progress_count / $totalComplaints) * 100, 2) : 0,
+        'completed_percentage' => $totalComplaints ? round(($statusCounts->completed_count / $totalComplaints) * 100, 2) : 0,
+        'rejected_percentage' => $totalComplaints ? round(($statusCounts->rejected_count / $totalComplaints) * 100, 2) : 0,
+    ];
+
+    return [
+        'by_government_entity' => $governmentStats,
+        'overall' => $overallStats,
+    ];
+}
+
 
 
 }
