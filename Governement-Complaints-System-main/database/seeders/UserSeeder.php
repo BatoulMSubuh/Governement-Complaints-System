@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $admin = User::firstOrCreate(
-            ['email' => 'batoul1@gmail.com'],
+            ['email' => 'batoulsubuh@gmail.com'],
             [
                 'name' => 'Batoul',
                 'password' => Hash::make('12341234'),
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         $firstEntity = GovernmentEntities::first();
         if($firstEntity) {
             $employee = User::firstOrCreate(
-                ['email' => 'batoulsubuh@gmail.com'],
+                ['email' => 'batoul1@gmail.com'],
                 [
                     'name' => 'BatoulSB',
                     'password' => Hash::make('1234512345'),

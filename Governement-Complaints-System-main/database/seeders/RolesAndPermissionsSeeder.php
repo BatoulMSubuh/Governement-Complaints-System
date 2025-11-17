@@ -22,6 +22,12 @@ class RolesAndPermissionsSeeder extends Seeder
             'add-attachment',
             'view-attachment',
             'manage-users',
+            // Admin-specific permissions
+            'view-all-complaints',
+            'view-employees',
+            'view-complaint-audit-logs',
+            'view-statistics',
+            'view-all-complaint-logs',
         ];
 
         foreach ($permissions as $permission) {
@@ -33,14 +39,16 @@ class RolesAndPermissionsSeeder extends Seeder
         $superAdmin = Role::firstOrCreate(['name' => 'super_admin']);
 
         $citizen->givePermissionTo(['create-complaint', 'view-complaint']);
-      $employee->givePermissionTo([
-    'view-complaint', 
-    'update-complaint', 
-    'assign-complaint', 
-    'add-complaint-notes',
-    'add-attachment',
-    'view-attachment'
-]);
-        $superAdmin->givePermissionTo(Permission::all());
+
+        $employee->givePermissionTo([
+            'view-complaint', 
+            'update-complaint', 
+            'assign-complaint', 
+            'add-complaint-notes',
+            'add-attachment',
+            'view-attachment'
+        ]);
+
+        $superAdmin->givePermissionTo(Permission::all()); // super_admin يحصل على كل الصلاحيات
     }
 }

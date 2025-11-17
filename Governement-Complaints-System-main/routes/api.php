@@ -53,13 +53,21 @@ Route::post('/registerEmployee',[AuthController::class,'RegisterEmployee'])->mid
     ///======================
     // ADMIN COMPLAINT ROUTES
     //=======================
-// Route::middleware(['auth:sanctum', 'role:super_admin'])->prefix('admin')->group(function () {
-    Route::get('/admin/complaints', [AdminComplaintController::class, 'index']);
-    Route::get('/admin/employees', [AdminComplaintController::class, 'listEmployees']);
-    Route::get('/admin/complaints/{complaintId}/audit-logs', [AdminComplaintController::class, 'complaintAuditLogs']);
-    Route::get('/admin/statistics', [AdminComplaintController::class, 'statistics']);
-    Route::get('/admin/complaint-logs', [AdminComplaintController::class, 'listAllComplaintLogs']);
-    // ->middleware(['auth:sanctum', 'role:super_admin']);
+Route::middleware(['auth:sanctum', 'role:super_admin'])->prefix('admin')->group(function () {
+    Route::get('/complaints', [AdminComplaintController::class, 'index'])
+        ->middleware('permission:view-all-complaints');
+    
+    Route::get('/employees', [AdminComplaintController::class, 'listEmployees'])
+        ->middleware('permission:view-employees');
+    
+    Route::get('/complaints/{complaintId}/audit-logs', [AdminComplaintController::class, 'complaintAuditLogs'])
+        ->middleware('permission:view-complaint-audit-logs');
+    
+    Route::get('/statistics', [AdminComplaintController::class, 'statistics'])
+        ->middleware('permission:view-statistics');
+    
+    Route::get('/complaint-logs', [AdminComplaintController::class, 'listAllComplaintLogs'])
+        ->middleware('permission:view-all-complaint-logs');
+});
 
-//});
 
