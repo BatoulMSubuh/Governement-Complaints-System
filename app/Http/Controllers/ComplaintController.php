@@ -85,7 +85,7 @@ class ComplaintController extends Controller
 
     public function getComplaintsforUser()
     {
-        $complaints = $this->complaintRepository->getComplaintsByUser();
+        $complaints = auth()->user()->complaints()->get();
     return $this->success('User complaints retrieved successfully', $complaints, 200);
     }
 }
