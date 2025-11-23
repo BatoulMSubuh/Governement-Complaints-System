@@ -38,8 +38,8 @@ class UserSeeder extends Seeder
         // Citizen User
         $citizen = User::create([
             'name' => 'Batoul Subuh',
-            'email' => 'batoulbatoul@gmail.com',
-            'password' => Hash::make('12121212'),
+            'email' => 'baraaalali553@gmail.com',
+            'password' => Hash::make('123456789'),
             'government_entity_id' => null, 
         ]);
 
