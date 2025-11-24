@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use Illuminate\Support\Facades\Route;
 use Kreait\Firebase\Messaging\CloudMessage;
 
@@ -13,4 +14,7 @@ Route::get('/', function () {
             ]);
             $messaging->send($message);
             dd($message);
+});
+Route::prefix('attachments')->group(function () {
+            Route::get('/show/{id}', [AttachmentController::class, 'show']);
 });

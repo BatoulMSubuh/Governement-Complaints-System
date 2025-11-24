@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\AdminComplaintController;
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EmployeeComplaintController;
 use App\Http\Controllers\GovernmentEntitiesController;
@@ -54,6 +55,10 @@ Route::post('/registerEmployee',[AuthController::class,'RegisterEmployee'])->mid
 
         Route::prefix('government-entities')->group(function () {
             Route::get('/all-entities', [GovernmentEntitiesController::class, 'index']);
+        });
+
+        Route::prefix('attachments')->group(function () {
+            Route::get('/show/{id}', [AttachmentController::class, 'show']);
         });
 
     });

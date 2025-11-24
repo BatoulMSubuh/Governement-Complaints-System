@@ -24,4 +24,18 @@ class AttachmentRepository
         $info['file_path'] = $attachmentRequest['file']->store('attachments', 'public');
         return Attachment::create($info);
     }
+
+    public function getAttachmentById($id): Attachment
+    {
+        $attachment = Attachment::find($id);
+        if (! $attachment) {
+            abort(response()->json([
+                'success' => false,
+                'message' => 'حدث خطأ غير متوقع',
+                'errors' => 'المرفق غير موجود'
+            ], 404));
+        }
+
+        return $attachment;
+    }
 }
