@@ -25,7 +25,7 @@ use App\Http\Controllers\ForgetPasswordController;
 
 
 // register User "Citizen"
-Route::post('/registerUser',[AuthController::class,'RegisterUser']);
+Route::post('/register',[AuthController::class,'RegisterUser']);
 Route::post('/login',[AuthController::class,'login'])->middleware('throttle:5,1');
 Route::post('/verify-code',[AuthController::class,'VerifyCode']);
 Route::post('/resend-code',[AuthController::class,'ResendCode'])->middleware('throttle:3,10');
