@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Government_entities;
+use App\Models\GovernmentEntities;
 use App\Repositories\GovernementEntities\GovernmentEntityRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -42,7 +42,7 @@ class GovernmentEntitiesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Government_entities $government_entities)
+    public function show(GovernmentEntities $government_entities)
     {
         //
     }
@@ -50,7 +50,7 @@ class GovernmentEntitiesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Government_entities $government_entities)
+    public function edit(GovernmentEntities $government_entities)
     {
         //
     }
@@ -58,7 +58,7 @@ class GovernmentEntitiesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Government_entities $government_entities)
+    public function update(Request $request, GovernmentEntities $government_entities)
     {
         //
     }
@@ -66,7 +66,7 @@ class GovernmentEntitiesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Government_entities $government_entities)
+    public function destroy(GovernmentEntities $government_entities)
     {
         //
     }

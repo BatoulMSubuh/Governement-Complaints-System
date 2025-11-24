@@ -29,9 +29,16 @@ class ComplaintRepository
 
     public function updateComplaint($id, array $data): Complaint
     {
-        $complaint = $this->getComplaintById($id);
-        $complaint->update($data);
-        return $complaint;
+        \DB::transaction(function () use ($id, $data) {
+            $complaint = $this->getComplaintById($id)->lockForUpdate()->firstOrFail();
+
+//            sleep(10);
+
+            $complaint->update($data);
+
+            return $complaint;
+        });
+        return Complaint::find($id);
     }
 
     public function deleteComplaint($id): void
@@ -42,6 +49,6 @@ class ComplaintRepository
 
     public function getComplaintsByUser()
     {
-        return Complaint::where('user_id', auth()->id())->get();
+        return auth()->user()->complaints()->with('attachments')->get();
     }
 }

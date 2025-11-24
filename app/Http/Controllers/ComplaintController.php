@@ -21,7 +21,7 @@ class ComplaintController extends Controller
      */
     public function __construct(protected AttachmentService $attachmentService,
     protected AttachmentRepository $attachmentRepository,
-    protected ReferanceNumberRepository $referanceNumberRepository,
+    protected ReferanceNumberRepository $referenceNumberRepository,
     protected GovernmentEntityRepository $governmentEntityRepository,
     protected ComplaintRepository $complaintRepository,
     )
@@ -33,7 +33,6 @@ class ComplaintController extends Controller
     {
         //
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -41,7 +40,7 @@ class ComplaintController extends Controller
     {
         $governmentEntity = $this->governmentEntityRepository->getCodeById($complaintRequest->government_entity_id);
 
-        $referenceNumber = $this->referanceNumberRepository->generateReferenceNumber($governmentEntity->code);
+        $referenceNumber = $this->referenceNumberRepository->generateReferenceNumber($governmentEntity->code);
 
         $complaint = $this->complaintRepository->createComplaint($complaintRequest->validated(), $referenceNumber);
 
@@ -85,7 +84,7 @@ class ComplaintController extends Controller
 
     public function getComplaintsforUser()
     {
-        $complaints = auth()->user()->complaints()->with('attachments')->get();
+        $complaints = $this->complaintRepository->getComplaintsByUser();
     return $this->success('User complaints retrieved successfully', $complaints, 200);
     }
 }

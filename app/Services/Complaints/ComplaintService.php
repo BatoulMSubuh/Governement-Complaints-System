@@ -23,8 +23,7 @@ class ComplaintService
             // استخدام request مصطنع لتمرير البيانات للـ Observer
             request()->merge([
                 'notes' => $notes,
-                'change_source' => $additionalData['change_source'] ?? 'manual',
-                'is_automatic' => $additionalData['is_automatic'] ?? false
+
             ]);
 
             // التحديث (سي trigger الـ Observer تلقائياً)

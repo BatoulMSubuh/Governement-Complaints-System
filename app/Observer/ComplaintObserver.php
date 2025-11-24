@@ -2,9 +2,7 @@
 
 namespace App\Observer;
 
-use App\Jobs\CleanupComplaintAttachmentsJob;
-use App\Jobs\ProcessComplaintAttachmentJob;
-use App\Models\Attachment;
+
 use App\Models\Complaint;
 
 class ComplaintObserver
@@ -44,27 +42,25 @@ class ComplaintObserver
      */
     public function updated(Complaint $complaint): void
      {
-    //     $original = $complaint->getOriginal();
-    //     $dirty = $complaint->getDirty();
-    //     // إذا لم تتغير أي بيانات، توقف
-    //     if (empty($dirty)) {
-    //         return;
-    //     }
-    //     // تحديد نوع الإجراء ووصفه
-    //     $action = $this->determineAction($dirty);
-    //     //إنشاء وصف مناسب للإجراء
-    //     $description = $this->generateDescription($action, $dirty, $original);
-    //     if ($action ==='status_changed') {
-    //         event(new \App\Events\GenericNotificationEvent(
-    //             $complaint->user,
-    //             'complaint_status_changed',
-    //             [
-    //                 'reference_number' => $complaint->referance_number,
-    //                 'old_status' => $original['status'] ?? 'unknown',
-    //                 'new_status' => $dirty['status'],
-    //             ]
-    //         ));
-    //     }
+        // $original = $complaint->getOriginal();
+        // $dirty = $complaint->getDirty();
+
+        // if (empty($dirty)) {
+        //     return;
+        // }
+        // $action = $this->determineAction($dirty);
+        // $description = $this->generateDescription($action, $dirty, $original);
+        // if ($action ==='status_changed') {
+        //     event(new \App\Events\GenericNotificationEvent(
+        //         $complaint->user,
+        //         'complaint_status_changed',
+        //         [
+        //             'reference_number' => $complaint->referance_number,
+        //             'old_status' => $original['status'] ?? 'unknown',
+        //             'new_status' => $dirty['status'],
+        //         ]
+        //     ));
+        // }
     }
 
     /**

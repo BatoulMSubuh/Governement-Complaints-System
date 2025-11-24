@@ -31,13 +31,6 @@ class User extends Authenticatable
         'email_verified_at',
         'phone',
         'fcm_token',
-        'verified_at',
-        'is_verified',
-        'is_banned',
-        'banned_at',
-        'ban_reason',
-        'followers_count',
-        'following_count'
     ];
 
     /**
@@ -97,7 +90,7 @@ class User extends Authenticatable
      */
     public function complaintAuditLogs()
     {
-        return $this->hasMany(ComplaintAuditLog::class);
+        return $this->morphMany(ComplaintAuditLog::class, 'auditable');
     }
     /**
      * العلاقة مع المرفقات.

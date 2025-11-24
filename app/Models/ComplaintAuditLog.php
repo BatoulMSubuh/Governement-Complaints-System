@@ -12,7 +12,8 @@ class ComplaintAuditLog extends Model
      */
     protected $fillable = [
         'complaint_id',
-        'user_id',
+        'auditable_id',
+        'auditable_type',
         'action',
         'description',
         'ip_address',
@@ -32,11 +33,11 @@ class ComplaintAuditLog extends Model
     }
 
     /**
-     * العلاقة مع المستخدم الذي قام بالإجراء.
+     * العلاقة مع الكيان الذي قام بالإجراء (مستخدم أو أي نموذج آخر).
      */
-    public function user()
+    public function auditable()
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 
 }

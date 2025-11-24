@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('complaint_audit_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('complaint_id');
-            $table->unsignedBigInteger('user_id');
+            $table->morphs('auditable');
             $table->enum('action', ['created', 'updated', 'note_added', 'attachment_added','deleted']);
             $table->text('description')->nullable();
             $table->string('ip_address')->nullable();
@@ -22,7 +22,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('complaint_id')->references('id')->on('complaints')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
