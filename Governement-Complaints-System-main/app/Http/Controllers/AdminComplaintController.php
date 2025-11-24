@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AdminComplaintService;
+use App\Services\ExportReportsService;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponse;
 
@@ -11,12 +12,15 @@ class AdminComplaintController extends Controller
     use ApiResponse;
 
     protected AdminComplaintService $complaintService;
+    // protected ExportReportsService $exportService;
+   public function __construct(AdminComplaintService $complaintService)
+{
+    $this->complaintService = $complaintService;
+    $this->middleware(['auth:sanctum', 'role:super_admin']);
+    // $this->exportService = $exportService;   
+}
 
-    public function __construct(AdminComplaintService $complaintService)
-    {
-        $this->complaintService = $complaintService;
-        // $this->middleware(['auth:sanctum', 'role:super_admin']); // only super admin
-    }
+     
 
     /**
      * List all complaints with full user, attachments, and government entity
@@ -109,4 +113,29 @@ public function statistics()
 }
 
 
-}
+
+//   // CSV export
+//     public function monthlyCsv(Request $request)
+//     {
+//         $request->validate([
+//             'month' => 'required|date_format:Y-m'
+//         ]);
+
+//         $complaints = $this->exportService->getMonthlyComplaints($request->month);
+
+//         return $this->exportService->exportCsv($complaints, "complaints_{$request->month}.csv");
+//     }
+
+//     // PDF export
+//     public function monthlyPdf(Request $request)
+//     {
+//         $request->validate([
+//             'month' => 'required|date_format:Y-m'
+//         ]);
+
+//         $complaints = $this->exportService->getMonthlyComplaints($request->month);
+
+//         return $this->exportService->exportPdf($complaints, "complaints_{$request->month}.pdf");
+//     }
+
+ }

@@ -10,6 +10,7 @@
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.1",
         "laravel/tinker": "^2.9",
+        "maatwebsite/excel": "4.x-dev",
         "spatie/laravel-permission": "^6.23"
     },
     "require-dev": {
@@ -68,6 +69,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
