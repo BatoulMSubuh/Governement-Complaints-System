@@ -91,7 +91,7 @@ public function registerEmployee($request)
             throw new RegistrationFailedException();
         }
 
-          $user->assignRole('admin');
+          $user->assignRole('super_admin');
         return $user;
     }
 

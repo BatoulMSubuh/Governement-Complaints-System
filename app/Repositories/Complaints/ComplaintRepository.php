@@ -29,16 +29,13 @@ class ComplaintRepository
 
     public function updateComplaint($id, array $data): Complaint
     {
-        \DB::transaction(function () use ($id, $data) {
-            $complaint = $this->getComplaintById($id)->lockForUpdate()->firstOrFail();
-
-//            sleep(10);
+        return \DB::transaction(function () use ($id, $data) {
+            $complaint = Complaint::where('id', $id)->lockForUpdate()->firstOrFail();
 
             $complaint->update($data);
 
-            return $complaint;
+            return $complaint->fresh();
         });
-        return Complaint::find($id);
     }
 
     public function deleteComplaint($id): void

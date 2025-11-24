@@ -25,6 +25,7 @@ class ComplaintUpdateRequest extends FormRequest
             'type' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
             'government_entity_id' => 'sometimes|exists:government_entities,id',
+            'location' => 'sometimes|array',
         ];
     }
 

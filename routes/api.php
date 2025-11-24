@@ -1,7 +1,5 @@
 <?php
 
-
-
 use App\Http\Controllers\AdminComplaintController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\ComplaintController;
@@ -10,7 +8,6 @@ use App\Http\Controllers\GovernmentEntitiesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgetPasswordController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +20,6 @@ use App\Http\Controllers\ForgetPasswordController;
 |
 */
 
-
 // register User "Citizen"
 Route::post('/register',[AuthController::class,'RegisterUser']);
 Route::post('/login',[AuthController::class,'login'])->middleware('throttle:5,1');
@@ -31,8 +27,10 @@ Route::post('/verify-code',[AuthController::class,'VerifyCode']);
 Route::post('/resend-code',[AuthController::class,'ResendCode'])->middleware('throttle:3,10');
 Route::post('/forget-password',[ForgetPasswordController::class,'forgotPassword']);
 Route::post('/check-code',[ForgetPasswordController::class,'checkCode']);
+
 // register "Admin"
 Route::post('/registerAdmin',[AuthController::class,'RegisterAdmin']);
+
 // register "employee"
 Route::post('/registerEmployee',[AuthController::class,'RegisterEmployee'])->middleware(['auth:sanctum', 'role:super_admin|permission:manage-users']);;
 
@@ -49,7 +47,7 @@ Route::post('/registerEmployee',[AuthController::class,'RegisterEmployee'])->mid
             Route::get('show/{id}', [ComplaintController::class, 'show']);
             Route::post('update/{id}', [ComplaintController::class, 'update']);
             Route::delete('delete/{id}', [ComplaintController::class, 'destroy']);
-            Route::post('add-attachment', [ComplaintController::class, 'addAttachment']);
+            Route::post('add-attachment/{id}', [ComplaintController::class, 'addAttachment']);
             Route::get('get-user-complaints', [ComplaintController::class, 'getComplaintsforUser']);
         });
 

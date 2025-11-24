@@ -86,9 +86,12 @@ class ComplaintObserver
     public function createAuditLog(Complaint $complaint,$action,$description)
     {
         return  \DB::transaction(function () use ($complaint,$action,$description) {
+            $actor = auth()->user();
+
             $complaint->auditLogs()->create([
                 'complaint_id' => $complaint->id,
-                'user_id' => auth()->id(),
+                'auditable_type' => $actor ? get_class($actor) : null,
+                'auditable_id' => $actor?->getKey(),
                 'action' => $action,
                 'description' => $description,
                 'ip_address' => request()->ip(),
@@ -113,15 +116,54 @@ class ComplaintObserver
                 }
 
                 $originalValue = $original[$field] ?? null;
+                
+                // تحويل القيم إلى JSON فقط إذا كانت arrays أو objects
+                // القيم النصية والرقمية تبقى كما هي
+                $originalValue = $this->normalizeValue($originalValue);
+                $normalizedValue = $this->normalizeValue($newValue);
 
                 $auditLog->details()->create([
                     'field_name' => $field,
                     'old_value' => $originalValue,
-                    'new_value' => $newValue,
+                    'new_value' => $normalizedValue,
                     'notes' => $notes ?? null,
                 ]);
             }
         });
+    }
+
+    /**
+     * تحويل القيمة إلى JSON إذا كانت array أو object، وإلا إرجاعها كما هي
+     */
+    private function normalizeValue($value)
+    {
+        if (is_array($value) || is_object($value)) {
+            return json_encode($value, JSON_UNESCAPED_UNICODE);
+        }
+        
+        // إذا كانت JSON string، نحاول تحويلها إلى array ثم إرجاعها كـ JSON مرة أخرى
+        // لضمان التنسيق الموحد
+        if (is_string($value) && $this->isJson($value)) {
+            $decoded = json_decode($value, true);
+            if (is_array($decoded)) {
+                return json_encode($decoded, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        
+        return $value;
+    }
+
+    /**
+     * التحقق من أن النص هو JSON صالح
+     */
+    private function isJson($string)
+    {
+        if (!is_string($string)) {
+            return false;
+        }
+        
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 
     /**

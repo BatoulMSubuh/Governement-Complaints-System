@@ -22,10 +22,8 @@ class ComplaintRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'government_entity_id' => 'required|exists:government_entities,id',
             'description' => 'required|string|max:1000',
-            'status' => 'required|in:pending,in_progress,resolved,closed',
             'location' => 'required|array',
             'type' => 'required|string|max:255',
 
